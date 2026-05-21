@@ -35,9 +35,11 @@ fun ChatScreen(
 ) {
     var query by remember { mutableStateOf("") }
 
-    Column(modifier = modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         LazyColumn(
             modifier = Modifier.weight(1f),
             reverseLayout = false

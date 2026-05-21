@@ -5,6 +5,7 @@ import androidx.room3.Room
 import com.github.dwivedyaakash.mindstackai.data.local.AppDatabase
 import com.github.dwivedyaakash.mindstackai.data.local.NoteDao
 import com.github.dwivedyaakash.mindstackai.BuildConfig
+import com.github.dwivedyaakash.mindstackai.data.remote.GeminiEmbeddingClient
 import com.google.ai.client.generativeai.GenerativeModel
 import dagger.Module
 import dagger.Provides
@@ -24,7 +25,7 @@ object DatabaseModule {
             context,
             AppDatabase::class.java,
             "mindstack_db"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides
@@ -41,4 +42,11 @@ object DatabaseModule {
             apiKey = BuildConfig.GEMINI_API_KEY
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideEmbeddingClient(): GeminiEmbeddingClient {
+        return GeminiEmbeddingClient(BuildConfig.GEMINI_API_KEY)
+    }
+
 }

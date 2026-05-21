@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.dwivedyaakash.mindstackai.data.model.ChatMessage
 import com.github.dwivedyaakash.mindstackai.data.model.Note
 import com.github.dwivedyaakash.mindstackai.domain.usecase.AskMindStackUseCase
+import com.github.dwivedyaakash.mindstackai.domain.usecase.SaveNoteUseCase
 import com.github.dwivedyaakash.mindstackai.repository.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -18,10 +19,10 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class MindStackViewModel @Inject constructor(
     private val repository: NoteRepository,
-    private val askMindStackUseCase: AskMindStackUseCase
+    private val askMindStackUseCase: AskMindStackUseCase,
+    private val saveNoteUseCase: SaveNoteUseCase
 ) : ViewModel() {
 
-    // Observe the Notes from RoomDB
     val notes: StateFlow<List<Note>> = repository.getAllNotes()
         .stateIn(
             scope = viewModelScope,
@@ -29,20 +30,20 @@ class MindStackViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
-    // Manage the Chat History
     private val _chatHistory = MutableStateFlow<List<ChatMessage>>(emptyList())
     val chatHistory: StateFlow<List<ChatMessage>> = _chatHistory.asStateFlow()
 
-    // Manage Loading State for the AI
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     fun saveNote(content: String) {
         if (content.isBlank()) return
         viewModelScope.launch {
-            repository.insertNote(
-                Note(content = content.trim())
-            )
+            try {
+                saveNoteUseCase(content.trim())
+            } catch (e: Exception) {
+                println("Error saving note with embedding: ${e.localizedMessage}")
+            }
         }
     }
 

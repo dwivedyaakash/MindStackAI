@@ -29,9 +29,11 @@ fun VaultScreen(
 ) {
     var text by remember { mutableStateOf("") }
 
-    Column(modifier = modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         OutlinedTextField(
             value = text,
             onValueChange = { text = it },

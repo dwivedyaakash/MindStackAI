@@ -13,6 +13,23 @@ An intelligent personal knowledge vault that allows users to interactively chat 
 
 ---
 
+## 📱 Screenshots
+
+<table width="100%">
+  <tr>
+    <td width="33%" align="center">
+      <img src="screenshots/vault.png" width="80%" alt="Home Screen"/>
+      <br /><b>Knowledge Vault Home</b>
+    </td>
+    <td width="33%" align="center">
+      <img src="screenshots/chat.png" width="80%" alt="Chat Screen"/>
+      <br /><b>AI Chat w/ Local Context</b>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 🛠️ Tech Stack
 
 This project is built using modern Android development practices and cutting-edge Generative AI tools:
